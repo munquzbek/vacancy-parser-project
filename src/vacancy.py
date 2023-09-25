@@ -23,7 +23,7 @@ class HeadHunterVacancy(Vacancy):
         super().__init__(name, url, salary, min_salary, currency, area, employer, requirements, responsibilities)
 
     def __str__(self):
-        return f'HH:Profession: {self.name}, Salary: {self.salary} {self.currency}, City: {self.area}, Company name: ' \
+        return f'HH|Vacancy:{self.name}, Salary: {self.salary} {self.currency}, City: {self.area}, Company name: ' \
                f'{self.employer}'
 
 
@@ -32,6 +32,6 @@ class SuperJobVacancy(Vacancy):
         super().__init__(name, url, salary, min_salary, currency, area, employer, requirements, responsibilities)
 
     def __str__(self):
-        return f'SJ:Profession: {self.name}, Salary: {self.salary} {self.currency}, City: {self.area}, Company name: ' \
+        return f'SJ|Vacancy:{self.name}, Salary: {self.salary} {self.currency}, City: {self.area}, Company name: ' \
                f'{self.employer}'
 

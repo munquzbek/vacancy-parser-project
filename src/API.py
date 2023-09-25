@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.vacancy import Vacancy, HeadHunterVacancy, SuperJobVacancy
+from src.vacancy import HeadHunterVacancy, SuperJobVacancy
 
 import requests
 import json
@@ -11,7 +11,7 @@ class API(ABC):
     """
 
     @abstractmethod                                         # abstract method for child classes
-    def get_vacancies(self, search_query, quantity):
+    def get_vacancies(self, search_query, quantity, city):
         pass
 
 
@@ -22,14 +22,14 @@ class HeadHunterAPI(API):
     """
     api_url = 'https://api.hh.ru/vacancies'                  # url of api where we make a GET REQUEST
 
-    def get_vacancies(self, search_query, quantity):         # get data with keyword and quantity of vacancies we want
+    def get_vacancies(self, search_query, quantity, city):         # get data with keyword and quantity of vacancies we want
         max_quantity = 100
         if int(quantity) >= 101:
             quantity = max_quantity
-
         params = {  # parameters of searching 'text': name of vacancy, 'per_page': quantity of vacancies in one page
             'text': search_query,
-            'per_page': quantity
+            'per_page': quantity,
+            'area': city
         }
         response = requests.get(url=HeadHunterAPI.api_url, params=params)  # request with parameters
         data = response.content.decode()                                   # decode from [Response 200] to str
@@ -37,7 +37,7 @@ class HeadHunterAPI(API):
         return vacancies
 
     @staticmethod
-    def format_for_class(vacancies, count):     # format the data from get_vacancies dunc to Vacancy object
+    def format_for_class(vacancies, count):                 # format the data from get_vacancies dunc to Vacancy object
         if vacancies['items'][count]['salary'] is None:
             currency = 0
             min_salary = 0
@@ -70,7 +70,7 @@ class HeadHunterAPI(API):
 class SuperJobAPI(API):
     api_url = 'https://api.superjob.ru/2.0/vacancies/'       # url of api where we make a GET REQUEST
 
-    def get_vacancies(self, search_query, quantity):
+    def get_vacancies(self, search_query, quantity, city):
         max_quantity = 100
         if int(quantity) >= 101:
             quantity = max_quantity
@@ -81,7 +81,8 @@ class SuperJobAPI(API):
         }
         params = {   # parameters of searching 'keyword': name of vacancy, 'count': quantity of vacancies in one page
             'keyword': search_query,
-            'count': quantity
+            'count': quantity,
+            'town': city
         }
         response = requests.get(SuperJobAPI.api_url, headers=headers, params=params)  # Get request
         data = response.content.decode()
@@ -90,6 +91,7 @@ class SuperJobAPI(API):
 
     @staticmethod
     def format_for_class(vacancies, quantity):
+
         currency = vacancies['objects'][quantity]['currency']
         if vacancies['objects'][quantity]['payment_from'] == 0:
             min_salary = 0
@@ -109,6 +111,7 @@ class SuperJobAPI(API):
         responsibilities = vacancies['objects'][quantity]['vacancyRichText']
         return SuperJobVacancy(name, url, salary, int(min_salary), currency, area, employer, requirements,
                                responsibilities)
+
 
 
 
