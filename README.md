@@ -14,19 +14,19 @@ Just run 'main.py' file and follow instruction
 ```
  write any keyword of your job (Example: 'python')
 ```
-*'Enter quantity of vacancy that will represent to you:'
+* 'Enter quantity of vacancy that will represent to you:'
 ```
 write any digit (Example: 10)
 ```
-*'Enter country:'
+* 'Enter country:'
 ```
 write name of country you want (Example: Кыргызстан)
 ```
-*'Enter city: '
+* 'Enter city: '
 ```
 write city name (Example: Бишкек)
 ```
-*'Search in "HeadHunter" or "SuperJob"? (write "HH" or "SJ")"
+* 'Search in "HeadHunter" or "SuperJob"? (write "HH" or "SJ")"
 ```
 choose platform (Example: 'HH')
 ```
